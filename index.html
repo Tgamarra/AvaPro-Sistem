@@ -118,13 +118,17 @@
             </div>
 
             <!-- Datos del Cliente -->
-            <div class="form-group">
-                <label for="clienteRuc">RUC / CI del Cliente (DNIT)</label>
-                <div class="input-group">
-                    <input type="text" id="clienteRuc" value="44444401-7" placeholder="Ej: 5205204-4" required>
-                    <button type="button" id="btnBuscarDnit" onclick="consultarDNIT()" class="btn-search">🔍 Buscar</button>
-                    <button type="button" id="btnLimpiarCliente" onclick="limpiarDatosCliente()" class="btn-search" style="background-color: #64748b; display: none;">✏️ Nuevo</button>
-                </div>
+<div class="form-group">
+    <label for="clienteRuc">RUC / CI del Cliente (DNIT)</label>
+    <div class="input-group">
+        <input type="text" id="clienteRuc" value="44444401-7" list="clientSuggestions" oninput="buscarClienteExistente()" placeholder="Ej: 5205204-4" required>
+        <button type="button" id="btnBuscarDnit" onclick="consultarDNIT()" class="btn-search">🔍 Buscar</button>
+        <button type="button" id="btnLimpiarCliente" onclick="limpiarDatosCliente()" class="btn-search" style="display:none;">✕ Limpiar</button>
+    </div>
+    <datalist id="clientSuggestions"></datalist>
+    <div id="dnitStatus" class="dnit-status">Factura predeterminada sin nombre (Consumidor Final)</div>
+</div>
+
                 <div id="dnitStatus" class="dnit-status">Factura predeterminada sin nombre (Consumidor Final)</div>
             </div>
 
