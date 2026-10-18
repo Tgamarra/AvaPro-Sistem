@@ -498,3 +498,39 @@ function actualizarEstadoRed() {
         if (statusAlertMsg) statusAlertMsg.textContent = "Conexión estable con el servidor fiscal.";
     }
 }
+// --- FUNCIONES DE AUTOCOMPLETADO Y CLIENTES (AvaPro-Sistem) ---
+
+// 1. Obtener la lista de clientes guardados
+function obtenerClientes() {
+    return JSON.parse(localStorage.getItem('avaPro_clientes')) || {};
+}
+
+// 2. Buscar y rellenar el nombre si el cliente ya existe
+function buscarClienteExistente() {
+    let rucInput = document.getElementById('clienteRuc').value.trim();
+    let nameInput = document.getElementById('clientName'); // Ajusta el ID si tu campo de nombre tiene otro ID en el HTML
+    let clientes = obtenerClientes();
+
+    if (nameInput && clientes[rucInput]) {
+        nameInput.value = clientes[rucInput];
+    }
+}
+
+// 3. Actualizar la lista de sugerencias en pantalla
+function actualizarSugerencias() {
+    let datalist = document.getElementById('clientSuggestions');
+    if (!datalist) return;
+    
+    let clientes = obtenerClientes();
+    datalist.innerHTML = '';
+    
+    Object.keys(clientes).forEach(ruc => {
+        let option = document.createElement('option');
+        option.value = ruc;
+        option.label = `${ruc} - ${clientes[ruc]}`;
+        datalist.appendChild(option);
+    });
+}
+
+// Cargar sugerencias al abrir la aplicación
+document.addEventListener('DOMContentLoaded', actualizarSugerencias);
