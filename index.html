@@ -1,342 +1,252 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AvaPro System - Personalización & Onboarding</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brandDark: '#0F172A',   // Azul Noche Fondo
-            brandCard: '#1E293B',   // Superficie Tarjeta
-            brandCyan: '#06B6D4',   // Turquesa Neobank
-            brandAccent: '#00F2FE'  // Neón Neobank
-          }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AvaPro-Sistem | Facturación KuDE e-Kuatia</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #ticketPreview {
+            display: none;
+            background: #ffffff;
+            border: 1px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.8rem;
+            color: #1e293b;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
-      }
-    }
-  </script>
+        .ticket-kude-header {
+            text-align: center;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+        }
+        .tabla-kude {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0;
+            font-size: 0.75rem;
+        }
+        .tabla-kude th, .tabla-kude td {
+            text-align: left;
+            padding: 2px 0;
+        }
+        .ticket-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        .ticket-actions button {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-ws { background-color: #25d366; color: white; }
+        .btn-print { background-color: #475569; color: white; }
+        .upload-box {
+            border: 1px dashed #cbd5e1;
+            background: #f8fafc;
+            border-radius: 6px;
+            padding: 8px;
+            text-align: center;
+            margin-top: 6px;
+            cursor: pointer;
+        }
+        input[readonly] {
+            background-color: #f1f5f9 !important;
+            color: #475569 !important;
+            cursor: not-allowed;
+            border-color: #cbd5e1;
+        }
+    </style>
 </head>
-<body class="bg-brandDark text-white font-sans min-h-screen flex flex-col justify-center items-center p-4">
+<body>
 
-  <!-- TARJETA PRINCIPAL -->
-  <div class="max-w-md w-full bg-brandCard border border-slate-700/60 rounded-3xl p-6 shadow-2xl">
-    
-    <!-- BRANDING CON LOGOTIPO PRINCIPAL -->
-    <div class="text-center mb-6 flex flex-col items-center">
-      <div class="w-16 h-16 mb-2 rounded-2xl bg-slate-900 border border-brandCyan/40 shadow-lg shadow-brandCyan/10 flex items-center justify-center">
-        <span class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-brandCyan to-brandAccent">A</span>
-      </div>
-
-      <h1 class="text-2xl font-extrabold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-brandCyan to-brandAccent">
-        AvaPro System
-      </h1>
-      <p class="text-[11px] tracking-widest text-slate-400 uppercase mt-0.5">Gestión Inteligente ERP / POS</p>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- PRIMER NIVEL: AUTENTICACIÓN (LOGIN / REGISTRO) -->
-    <!-- ========================================== -->
-    <div id="pantalla-nivel1">
-      
-      <!-- PESTAÑAS: INGRESAR / CREAR CUENTA -->
-      <div class="grid grid-cols-2 gap-2 bg-slate-900/80 p-1.5 rounded-2xl mb-6 border border-slate-800">
-        <button id="tab-login" type="button" onclick="switchTab('login')" class="py-2.5 text-xs font-bold rounded-xl transition-all duration-200 bg-brandCyan text-slate-950 shadow-md">
-          Iniciar Sesión
-        </button>
-        <button id="tab-register" type="button" onclick="switchTab('register')" class="py-2.5 text-xs font-bold rounded-xl transition-all duration-200 text-slate-400 hover:text-white">
-          Crear Cuenta Nueva
-        </button>
-      </div>
-
-      <!-- 1. FORMULARIO DE INICIO DE SESIÓN -->
-      <form id="form-login" onsubmit="irANivel2(event)" class="space-y-4">
-        <div>
-          <label class="block text-xs text-slate-300 font-medium mb-1">RUC, Cédula o Correo Electrónico</label>
-          <input type="text" placeholder="Ej: 1234567-8 o usuario@correo.com" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brandCyan focus:ring-1 focus:ring-brandCyan transition">
-        </div>
-
-        <div>
-          <label class="block text-xs text-slate-300 font-medium mb-1">Contraseña</label>
-          <input type="password" placeholder="••••••••" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brandCyan focus:ring-1 focus:ring-brandCyan transition">
-        </div>
-
-        <div class="flex items-center justify-between text-xs text-slate-400">
-          <label class="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" class="rounded bg-slate-900 border-slate-700 text-brandCyan focus:ring-0">
-            Recordarme
-          </label>
-          <a href="#" onclick="alert('Instrucciones enviadas')" class="text-brandCyan hover:underline">¿Olvidaste tu contraseña?</a>
-        </div>
-
-        <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-brandCyan to-blue-600 text-white font-bold rounded-xl shadow-lg hover:opacity-90 active:scale-95 transition">
-          Ingresar al Sistema
-        </button>
-      </form>
-
-      <!-- 2. FORMULARIO DE REGISTRO CON DETECCIÓN AUTOMÁTICA -->
-      <form id="form-register" onsubmit="irANivel2(event)" class="space-y-3 hidden">
-        <div>
-          <div class="flex justify-between items-center mb-1">
-            <label class="text-xs text-slate-300 font-medium">RUC o Cédula de Identidad</label>
-            <span class="text-[10px] text-brandCyan font-semibold">Autocompletado DNIT</span>
-          </div>
-          <div class="flex gap-2">
-            <input id="input-ruc" type="text" placeholder="Ej. 80012345-6" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brandCyan focus:ring-1 focus:ring-brandCyan transition">
-            <button type="button" onclick="consultarDNIT()" class="px-3 py-2.5 bg-slate-800 border border-brandCyan/40 text-brandCyan text-xs font-bold rounded-xl hover:bg-slate-700 transition flex items-center gap-1 shrink-0">
-              Validar DNIT
-            </button>
-          </div>
-        </div>
-
-        <!-- PANEL DE INFORMACIÓN DETECTADA DE LA DNIT -->
-        <div id="panel-dnit" class="bg-slate-900/90 border border-brandCyan/30 rounded-xl p-3 space-y-1.5 hidden">
-          <div class="flex justify-between items-center text-xs">
-            <span class="text-slate-400">Razón Social:</span>
-            <span id="res-nombre" class="font-bold text-white">---</span>
-          </div>
-          <div class="flex justify-between items-center text-xs">
-            <span class="text-slate-400">Rubro Detectado:</span>
-            <span id="res-rubro" class="font-bold text-brandCyan">---</span>
-          </div>
-          <div class="flex justify-between items-center text-xs">
-            <span class="text-slate-400">Estado Tributario:</span>
-            <span id="res-perfil" class="px-2 py-0.5 text-[10px] bg-emerald-500/20 text-emerald-400 font-semibold rounded-full">ACTIVO (DNIT)</span>
-          </div>
-        </div>
-
-        <div>
-          <label class="block text-xs text-slate-300 font-medium mb-1">Correo Electrónico de Contacto</label>
-          <input type="email" placeholder="contacto@empresa.com" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brandCyan focus:ring-1 focus:ring-brandCyan transition">
-        </div>
-
-        <div>
-          <label class="block text-xs text-slate-300 font-medium mb-1">Crear Contraseña</label>
-          <input type="password" placeholder="Mínimo 8 caracteres" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brandCyan focus:ring-1 focus:ring-brandCyan transition">
-        </div>
-
-        <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-brandCyan to-blue-600 text-white font-bold rounded-xl shadow-lg hover:opacity-90 active:scale-95 transition mt-2">
-          Continuar a Personalización →
-        </button>
-      </form>
-    </div>
-
-    <!-- ========================================== -->
-    <!-- SEGUNDO NIVEL: PERFILADO Y MARCA ADAPTATIVA -->
-    <!-- ========================================== -->
-    <div id="pantalla-nivel2" class="hidden space-y-4">
-      <div class="bg-slate-900/90 border border-brandCyan/30 rounded-2xl p-4 text-center">
-        <div class="w-10 h-10 bg-brandCyan/20 text-brandCyan rounded-full flex items-center justify-center mx-auto mb-2 font-bold text-sm">
-          2/2
-        </div>
-        <h2 class="text-base font-bold text-white">Configuración & Identidad Comercial</h2>
-        <p class="text-xs text-slate-400 mt-1">Datos fiscales autocompletados desde la DNIT.</p>
-      </div>
-
-      <form onsubmit="finalizarOnboarding(event)" class="space-y-3">
-        
-        <!-- SECTOR / PERFIL -->
-        <div>
-          <label class="block text-xs text-slate-300 font-medium mb-1">Perfil de Uso:</label>
-          <select id="select-sector" onchange="adaptarFormularioSector()" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brandCyan focus:ring-1 focus:ring-brandCyan transition">
-            <option value="emprendedor">🚀 Emprendedor / Marca Personal</option>
-            <option value="independiente">💼 Profesional Independiente / Servicios</option>
-            <option value="comercio" selected>🏪 Comercio / Local / Punto de Venta (POS)</option>
-          </select>
-        </div>
-
-        <!-- NOMBRE COMERCIAL -->
-        <div>
-          <label class="block text-xs text-slate-300 font-medium mb-1" id="lbl-nombre-comercial">Nombre Comercial / Fantasía</label>
-          <input id="input-nombre-fantasia" type="text" placeholder="Ej: RB Store / Rayen Beauty" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brandCyan focus:ring-1 focus:ring-brandCyan transition">
-        </div>
-
-        <!-- UBICACIÓN Y DIRECCIÓN AUTOCOMPLETADOS DESDE DNIT -->
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-xs text-slate-300 font-medium mb-1">Ciudad (DNIT)</label>
-            <input id="input-ciudad" type="text" placeholder="Ej: Paraguarí" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brandCyan focus:ring-1 focus:ring-brandCyan transition">
-          </div>
-          <div>
-            <label class="block text-xs text-slate-300 font-medium mb-1">WhatsApp Negocio</label>
-            <input type="tel" placeholder="0981 123 456" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-3 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brandCyan focus:ring-1 focus:ring-brandCyan transition">
-          </div>
-        </div>
-
-        <div>
-          <div class="flex justify-between items-center mb-1">
-            <label class="text-xs text-slate-300 font-medium">Dirección Comercial (Calle y N°)</label>
-            <span class="text-[10px] text-brandCyan font-semibold">Cargado DNIT</span>
-          </div>
-          <input id="input-direccion" type="text" placeholder="Ej: Av. Pa'i Gómez c/ Mcal. Estigarribia" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-brandCyan focus:ring-1 focus:ring-brandCyan transition">
-        </div>
-
-        <!-- CONFIGURACIÓN TRIBUTARIA Y ESTABLECIMIENTO AUTOCOMPLETADO -->
-        <div class="grid grid-cols-2 gap-2">
-          <div>
-            <label class="block text-xs text-slate-300 font-medium mb-1">Régimen IVA (DNIT)</label>
-            <select id="select-regimen" class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl px-2.5 py-2.5 text-xs text-white focus:outline-none focus:border-brandCyan transition">
-              <option value="general" selected>Régimen General (10% / 5%)</option>
-              <option value="resimple">RESIMPLE / Monotributo</option>
-              <option value="exento">Exento</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs text-slate-300 font-medium mb-1">Establecimiento DNIT</label>
-            <input type="text" value="001 - 001" readonly class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-brandCyan text-center font-bold">
-          </div>
-        </div>
-
-        <!-- SECCIÓN DE BRANDING Y LOGO -->
-        <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-3 space-y-3">
-          <label class="block text-xs font-bold text-slate-300">Identidad Visual & Logotipo</label>
-          
-          <div class="flex items-center gap-3">
-            <div class="w-12 h-12 bg-slate-800 rounded-xl border border-dashed border-slate-600 flex items-center justify-center text-slate-500 text-xs text-center p-1" id="preview-logo-box">
-              Sin Logo
+    <div class="container">
+        <!-- Encabezado del Comercio -->
+        <div class="header-comercio" style="text-align: center; margin-bottom: 15px;">
+            <div class="logo-container" style="position: relative; cursor: pointer; display: inline-block;" onclick="document.getElementById('subirLogo').click();" title="Toca para cambiar el logo">
+                <img id="imgLogoComercio" src="https://via.placeholder.com/80?text=RB" alt="Logo Comercio" class="logo-comercio" style="width: 65px; height: 65px; border-radius: 50%; object-fit: cover; border: 2px solid #e2e8f0;">
+                <div style="font-size: 0.6rem; color: #2563eb; margin-top: 2px;">Cambiar logo</div>
             </div>
-            <div class="flex-1">
-              <input type="file" id="input-logo" accept="image/*" onchange="previewLogo(event)" class="hidden">
-              <button type="button" onclick="document.getElementById('input-logo').click()" class="w-full py-2 px-3 bg-slate-800 border border-slate-700 text-slate-300 text-xs font-semibold rounded-xl hover:bg-slate-700 transition">
-                📷 Cargar Mi Logotipo
-              </button>
+            
+            <input type="file" id="subirLogo" accept="image/*" onchange="cargarLogo(event)" style="display: none;">
+            
+            <div class="info-comercio" style="margin-top: 6px;">
+                <h1 class="nombre-comercio" id="lblNombreComercio" style="font-size: 1.1rem; margin: 2px 0;">RB_ONLINE_STORE</h1>
+                <div class="datos" style="font-size: 0.75rem; color: #475569; line-height: 1.3;">
+                    RUC: <span id="lblRucComercio">80082578-0</span> | Est: 004-009<br>
+                    Timbrado Nº: 18229905 (Venc: 31/12/2026)<br>
+                    📍 <span id="lblDireccionComercio">Paraguarí - Paraguay</span> | 📞 Tel: <span id="lblTelComercio">+595 981 000000</span>
+                </div>
             </div>
-          </div>
-
-          <!-- PALETA DE COLORES ADAPTATIVA -->
-          <div>
-            <label class="block text-[11px] text-slate-400 mb-1">Paleta Neobank Sugerida para el Sistema:</label>
-            <div class="flex gap-2">
-              <button type="button" class="w-7 h-7 rounded-full bg-cyan-500 border-2 border-white focus:ring-2 ring-cyan-400" title="Turquesa Neobank"></button>
-              <button type="button" class="w-7 h-7 rounded-full bg-emerald-500 border-2 border-transparent hover:border-white" title="Verde Menta Eco"></button>
-              <button type="button" class="w-7 h-7 rounded-full bg-purple-500 border-2 border-transparent hover:border-white" title="Púrpura Tech"></button>
-              <button type="button" class="w-7 h-7 rounded-full bg-amber-500 border-2 border-transparent hover:border-white" title="Ámbar Gold"></button>
-            </div>
-          </div>
         </div>
 
-        <button type="submit" class="w-full py-3 px-4 bg-gradient-to-r from-brandCyan to-blue-600 text-white font-bold rounded-xl shadow-lg hover:opacity-90 active:scale-95 transition mt-3">
-          ¡Personalizar y Activar Mi Sistema! 🚀
-        </button>
+        <!-- Barra de Estado Automática -->
+        <div id="systemStatusBar" class="system-status-bar">
+            <div class="status-top">
+                <span id="statusText">🟢 En línea con la DNIT</span>
+                <small id="statusSub">e-Kuatia Activo</small>
+            </div>
+            <div id="statusAlertMsg" class="status-msg">
+                Conexión estable con el servidor fiscal.
+            </div>
+        </div>
+        
+        <form id="formFactura" onsubmit="emitirComprobante(event)">
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="tipoDoc">Documento</label>
+                    <select id="tipoDoc">
+                        <option value="FACTURA ELECTRÓNICA">Factura Electrónica</option>
+                        <option value="RECIBO DE DINERO">Recibo de Dinero</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="moneda">Moneda</label>
+                    <select id="moneda">
+                        <option value="PYG">Guaraníes (Gs.)</option>
+                        <option value="USD">Dólares (USD)</option>
+                    </select>
+                </div>
+            </div>
 
-        <button type="button" onclick="volverANivel1()" class="w-full py-2 text-xs text-slate-400 hover:text-white transition">
-          ← Volver atrás
-        </button>
-      </form>
+            <!-- Datos del Cliente -->
+            <div class="form-group">
+                <label for="clienteRuc">RUC / CI del Cliente (DNIT)</label>
+                <div class="input-group">
+                    <input type="text" id="clienteRuc" value="44444401-7" placeholder="Ej: 5205204-4" required>
+                    <button type="button" id="btnBuscarDnit" onclick="consultarDNIT()" class="btn-search">🔍 Buscar</button>
+                    <button type="button" id="btnLimpiarCliente" onclick="limpiarDatosCliente()" class="btn-search" style="background-color: #64748b; display: none;">✏️ Nuevo</button>
+                </div>
+                <div id="dnitStatus" class="dnit-status">Factura predeterminada sin nombre (Consumidor Final)</div>
+            </div>
+
+            <div class="form-group">
+                <label for="clienteNombre">Nombre o Razón Social</label>
+                <input type="text" id="clienteNombre" value="SIN NOMBRE / CONSUMIDOR FINAL" placeholder="Ingrese nombre o busque en DNIT" required>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="clienteDireccion">Dirección</label>
+                    <input type="text" id="clienteDireccion" value="Paraguarí - Paraguay" placeholder="Ej: Paraguarí">
+                </div>
+                <div class="form-group">
+                    <label for="clienteCorreo">Correo Electrónico</label>
+                    <input type="email" id="clienteCorreo" placeholder="cliente@gmail.com">
+                </div>
+            </div>
+
+            <!-- Detalle de Productos / Servicios -->
+            <div class="items-box">
+                <label>📦 Descripción del Servicio / Producto</label>
+                <div class="grid-items-input">
+                    <input type="number" id="itemCant" placeholder="Cant." value="1" style="width: 70px;">
+                    <input type="text" id="itemDesc" placeholder="Escribe la descripción del trabajo o servicio..." style="flex: 1;">
+                    <input type="text" id="itemPrecio" placeholder="Precio (Gs.)" style="width: 110px;">
+                    <button type="button" onclick="agregarItem()" class="btn-add">+</button>
+                </div>
+
+                <table class="tabla-items" id="tablaItems">
+                    <thead>
+                        <tr>
+                            <th>Cant.</th>
+                            <th>Concepto / Servicio</th>
+                            <th>P.U.</th>
+                            <th>Subtotal</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="bodyItems"></tbody>
+                </table>
+            </div>
+
+            <div class="form-group" style="margin-top: 10px;">
+                <div id="vatInfo" class="vat-badge">📊 Total Factura: Gs. 0 (IVA 10%: Gs. 0)</div>
+            </div>
+
+            <div class="grid-2">
+                <div class="form-group">
+                    <label for="condicionVenta">Condición</label>
+                    <select id="condicionVenta">
+                        <option value="CONTADO">Contado</option>
+                        <option value="CREDITO">Crédito</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="metodoPago">Método Pago</label>
+                    <select id="metodoPago">
+                        <option value="EFECTIVO" selected>Efectivo</option>
+                        <option value="DEBITO_QR">Tarjeta de Débito / QR Débito</option>
+                        <option value="CREDITO_QR">Tarjeta de Crédito / QR Crédito</option>
+                        <option value="TRANSFERENCIA">Transferencia Bancaria</option>
+                        <option value="CHEQUE">Cheque</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Sección Tarjetas / QR -->
+            <div id="voucherSection" class="voucher-section" style="display: none; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="codAutorizacion">Cód. Autorización</label>
+                        <input type="text" id="codAutorizacion" placeholder="Ej: 123456">
+                    </div>
+                    <div class="form-group">
+                        <label for="nroVoucher">N° Comprobante</label>
+                        <input type="text" id="nroVoucher" placeholder="Ej: 0003938">
+                    </div>
+                </div>
+                
+                <div class="upload-box" onclick="document.getElementById('subirVoucherFoto').click()">
+                    <span style="font-size: 0.75rem; color: #2563eb;">📷 Adjuntar foto / escaneo del voucher</span>
+                    <input type="file" id="subirVoucherFoto" accept="image/*" onchange="cargarFotoComprobante(event, 'previewVoucherFoto')" style="display: none;">
+                    <div id="previewVoucherFoto" style="margin-top: 4px;"></div>
+                </div>
+            </div>
+
+            <!-- Sección Transferencia Bancaria -->
+            <div id="qrCobroSection" class="qr-cobro-section" style="display: none; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                <div class="form-group">
+                    <label for="nroTransf">N° Transacción / Comprobante Bancario</label>
+                    <input type="text" id="nroTransf" placeholder="Ej: Transf. N° 9840123">
+                </div>
+                
+                <div class="upload-box" onclick="document.getElementById('subirTransferenciaFoto').click()">
+                    <span style="font-size: 0.75rem; color: #2563eb;">🧾 Adjuntar foto / captura de transferencia bancaria</span>
+                    <input type="file" id="subirTransferenciaFoto" accept="image/*" onchange="cargarFotoComprobante(event, 'previewTransfFoto')" style="display: none;">
+                    <div id="previewTransfFoto" style="margin-top: 4px;"></div>
+                </div>
+            </div>
+
+            <!-- Sección Cheque -->
+            <div id="chequeSection" class="cheque-section" style="display: none; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="bancoCheque">Banco Emisor</label>
+                        <input type="text" id="bancoCheque" placeholder="Ej: Banco Itaú">
+                    </div>
+                    <div class="form-group">
+                        <label for="nroCheque">N° de Cheque</label>
+                        <input type="text" id="nroCheque" placeholder="Ej: CH-00123456">
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" id="btnEmitir" class="btn-submit">Emitir Factura Electrónica (KuDE)</button>
+        </form>
+
+        <!-- Previsualización KuDE / Ticket -->
+        <div id="ticketPreview" class="ticket-preview"></div>
     </div>
 
-    <!-- SECCIÓN DE SOPORTE Y AYUDA -->
-    <div class="mt-6 pt-4 border-t border-slate-800 text-center space-y-3">
-      <a href="#" onclick="alert('Abriendo soporte técnico...');" class="text-xs text-slate-400 hover:text-brandCyan flex items-center justify-center gap-1.5 transition">
-        <svg class="w-4 h-4 text-brandCyan" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        ¿Necesitas ayuda para ingresar o configurar tu cuenta?
-      </a>
-
-      <p class="text-[10px] text-slate-500">
-        AvaPro System v1.0 • Ecosistema Digital para el Paraguay
-      </p>
-    </div>
-
-  </div>
-
-  <!-- SCRIPT DE NAVEGACIÓN Y AUTOCOMPLETADO DNIT -->
-  <script>
-    function switchTab(tab) {
-      const formLogin = document.getElementById('form-login');
-      const formRegister = document.getElementById('form-register');
-      const tabLogin = document.getElementById('tab-login');
-      const tabRegister = document.getElementById('tab-register');
-
-      if (tab === 'login') {
-        formLogin.classList.remove('hidden');
-        formRegister.classList.add('hidden');
-        tabLogin.className = "py-2.5 text-xs font-bold rounded-xl transition-all duration-200 bg-brandCyan text-slate-950 shadow-md";
-        tabRegister.className = "py-2.5 text-xs font-bold rounded-xl transition-all duration-200 text-slate-400 hover:text-white";
-      } else {
-        formLogin.classList.add('hidden');
-        formRegister.classList.remove('hidden');
-        tabRegister.className = "py-2.5 text-xs font-bold rounded-xl transition-all duration-200 bg-brandCyan text-slate-950 shadow-md";
-        tabLogin.className = "py-2.5 text-xs font-bold rounded-xl transition-all duration-200 text-slate-400 hover:text-white";
-      }
-    }
-
-    // SIMULACIÓN DE CONSULTA COMPLETA A PADRÓN DNIT
-    function consultarDNIT() {
-      const ruc = document.getElementById('input-ruc').value.trim();
-      const panel = document.getElementById('panel-dnit');
-
-      if (!ruc) {
-        alert('Por favor, ingresa un número de RUC o Cédula.');
-        return;
-      }
-
-      panel.classList.remove('hidden');
-
-      if (ruc.startsWith('800') || ruc.endsWith('0') || ruc.toLowerCase().includes('contador')) {
-        document.getElementById('res-nombre').textContent = 'Estudio Contable & Asociados';
-        document.getElementById('res-rubro').textContent = 'Servicios Contables y Asesoría Fiscal';
-        
-        // Autocompletado Nivel 2 desde DNIT
-        document.getElementById('input-nombre-fantasia').value = 'Estudio Contable & Asociados';
-        document.getElementById('input-ciudad').value = 'Asunción';
-        document.getElementById('input-direccion').value = 'Av. Mariscal López 1250 c/ Brasil';
-        document.getElementById('select-regimen').value = 'general';
-      } else {
-        document.getElementById('res-nombre').textContent = 'Comercial & Servicios Paraguarí';
-        document.getElementById('res-rubro').textContent = 'Comercio Minorista / Regalería / Belleza';
-        
-        // Autocompletado Nivel 2 desde DNIT
-        document.getElementById('input-nombre-fantasia').value = 'RB Store / Rayen Beauty';
-        document.getElementById('input-ciudad').value = 'Paraguarí';
-        document.getElementById('input-direccion').value = 'Av. Pa\'i Gómez c/ Mcal. Estigarribia';
-        document.getElementById('select-regimen').value = 'general';
-      }
-    }
-
-    function irANivel2(e) {
-      e.preventDefault();
-      document.getElementById('pantalla-nivel1').classList.add('hidden');
-      document.getElementById('pantalla-nivel2').classList.remove('hidden');
-    }
-
-    function volverANivel1() {
-      document.getElementById('pantalla-nivel2').classList.add('hidden');
-      document.getElementById('pantalla-nivel1').classList.remove('hidden');
-    }
-
-    function adaptarFormularioSector() {
-      const sector = document.getElementById('select-sector').value;
-      const lblNombre = document.getElementById('lbl-nombre-comercial');
-
-      if (sector === 'emprendedor') {
-        lblNombre.textContent = "Nombre de tu Emprendimiento / Marca";
-      } else if (sector === 'independiente') {
-        lblNombre.textContent = "Nombre de Fantasía o Tu Nombre Profesional";
-      } else {
-        lblNombre.textContent = "Nombre Comercial del Local / Comercio";
-      }
-    }
-
-    function previewLogo(event) {
-      const file = event.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          const box = document.getElementById('preview-logo-box');
-          box.innerHTML = `<img src="${e.target.result}" class="w-full h-full object-cover rounded-xl">`;
-        }
-        reader.readAsDataURL(file);
-      }
-    }
-
-    function finalizarOnboarding(e) {
-      e.preventDefault();
-      alert('¡Perfil configurado exitosamente! Redirigiendo a la Caja POS...');
-    }
-  </script>
-
+    <script src="app.js"></script>
 </body>
 </html>
