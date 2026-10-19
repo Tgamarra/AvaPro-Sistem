@@ -588,3 +588,61 @@ function nuevaVenta() {
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// ==========================================
+// PARCHE v2.1.0 - FUNCIONES DE CRÉDITO Y VOUCHER
+// ==========================================
+
+// 1. Mostrar/Ocultar campos de Crédito
+function actualizarVisibilidadCredito() {
+    const condicion = document.getElementById('condicionVenta')?.value;
+    const seccionCredito = document.getElementById('seccionCredito');
+    if (seccionCredito) {
+        seccionCredito.style.display = (condicion === 'CREDITO') ? 'block' : 'none';
+    }
+}
+
+// 2. Cargar Vista Previa de la Captura del Voucher
+function cargarFotoVoucher(event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('previewVoucherFoto');
+    const btnEliminar = document.getElementById('btnEliminarVoucherFoto');
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            if (preview) {
+                preview.innerHTML = `<img src="${e.target.result}" style="max-width: 100%; border-radius: 6px; border: 1px solid #cbd5e1; margin-top: 5px;">`;
+            }
+            if (btnEliminar) btnEliminar.style.display = 'inline-block';
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+// 3. Eliminar Captura del Voucher
+function eliminarFotoVoucher() {
+    const inputFoto = document.getElementById('subirVoucherFoto');
+    const preview = document.getElementById('previewVoucherFoto');
+    const btnEliminar = document.getElementById('btnEliminarVoucherFoto');
+    
+    if (inputFoto) inputFoto.value = '';
+    if (preview) preview.innerHTML = '';
+    if (btnEliminar) btnEliminar.style.display = 'none';
+}
+
+// 4. Resetear Formulario / Nueva Venta
+function nuevaVenta() {
+    const form = document.getElementById('formFactura');
+    if (form) form.reset();
+
+    const btnEmitir = document.getElementById('btnEmitir');
+    if (btnEmitir) {
+        btnEmitir.disabled = false;
+        btnEmitir.innerText = "Emitir Factura Electrónica (KuDE)";
+    }
+
+    eliminarFotoVoucher();
+    actualizarVisibilidadCamposPago();
+    actualizarVisibilidadCredito();
+        }
