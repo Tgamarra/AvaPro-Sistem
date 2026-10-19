@@ -356,10 +356,9 @@ function emitirComprobante(e) {
     const nroCheque = document.getElementById('nroCheque')?.value || '';
 
     let refPagoHtml = '';
-    if (metodoVal === 'DEBITO_QR' || metodoVal === 'CREDITO_QR') {
+        if (metodoVal === 'DEBITO_QR' || metodoVal === 'CREDITO_QR' || metodoVal === 'TRANSFERENCIA') {
         if (codAuth) refPagoHtml += `<strong>Cód. Autorización:</strong> ${codAuth}<br>`;
         if (nroVoucher) refPagoHtml += `<strong>N° Comprobante:</strong> ${nroVoucher}<br>`;
-    } else if (metodoVal === 'TRANSFERENCIA') {
         if (nroTransf) refPagoHtml += `<strong>N° Transacción Banco:</strong> ${nroTransf}<br>`;
     } else if (metodoVal === 'CHEQUE') {
         if (bancoCheque) refPagoHtml += `<strong>Banco Emisor:</strong> ${bancoCheque}<br>`;
