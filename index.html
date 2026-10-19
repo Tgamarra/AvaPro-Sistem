@@ -231,7 +231,15 @@
                 </div>
             </div>
 
-            <button type="submit" id="btnEmitir" class="btn-submit">Emitir Factura Electrónica (KuDE)</button>
+            <div style="display: flex; gap: 10px; margin-top: 15px; margin-bottom: 15px;">
+    <button type="button" onclick="nuevaVenta()" style="flex: 1; background-color: #10b981; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer;">
+        ➕ Nueva Venta
+    </button>
+    <button type="submit" id="btnEmitir" class="btn-submit" style="flex: 2; margin: 0;">
+        Emitir Factura Electrónica (KuDE)
+    </button>
+</div>
+
         </form>
 
         <!-- Previsualización KuDE / Ticket -->
