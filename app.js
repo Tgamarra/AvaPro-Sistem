@@ -105,7 +105,7 @@ function cargarLogo(event) {
     }
 }
 
-function cargarFotoComprobante(event, elementPreviewId) {
+function cargarFotoComprobante(event, elementPreviewId){
     const archivo = event.target.files[0];
     if (archivo) {
         const lector = new FileReader();
@@ -114,14 +114,27 @@ function cargarFotoComprobante(event, elementPreviewId) {
             const contenedorPreview = document.getElementById(elementPreviewId);
             if (contenedorPreview) {
                 contenedorPreview.innerHTML = `
-                    <div style="font-size:0.65rem; color:#16a34a; font-weight:bold;">✓ Comprobante adjuntado correctamente</div>
-                    <img src="${fotoComprobanteAdjunto}" style="width:50px; height:50px; object-fit:cover; border-radius:4px; margin-top:2px; border:1px solid #cbd5e1;">
+                    <div style="display: flex; align-items: center; justify-content: space-between; background: #ffffff; padding: 6px 10px; border-radius: 6px; border: 1px solid #cbd5e1; margin-top: 6px;">
+                        <span style="font-size: 0.8rem; color: #334155; max-width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">📎 ${archivo.name}</span>
+                        <button type="button" onclick="eliminarFotoComprobante('${event.target.id}', '${elementPreviewId}')" style="background-color: #ef4444; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; cursor: pointer;">
+                            🗑️ Eliminar
+                        </button>
+                    </div>
                 `;
             }
         };
         lector.readAsDataURL(archivo);
     }
 }
+
+function eliminarFotoComprobante(inputId, containerId) {
+    const input = document.getElementById(inputId);
+    const container = document.getElementById(containerId);
+    fotoComprobanteAdjunto = null;
+    if (input) input.value = '';
+    if (container) container.innerHTML = '';
+}
+
 
 function agregarItem() {
     const cantInput = document.getElementById('itemCant');
