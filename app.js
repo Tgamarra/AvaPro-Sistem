@@ -574,7 +574,7 @@ function nuevaVenta() {
     }
 
     // 4. Limpiar foto de comprobante
-    eliminarFotoComprobante('subirVoucherFoto', 'previewVoucherFoto');
+    eliminarFotoVoucher();
 
     // 5. Limpiar campos de referencia de pago
     const codAut = document.getElementById('codAutorizacion');
