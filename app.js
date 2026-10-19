@@ -547,3 +547,45 @@ function actualizarSugerencias() {
 
 // Cargar sugerencias al abrir la aplicación
 document.addEventListener('DOMContentLoaded', actualizarSugerencias);
+
+// ==========================================
+// FUNCIÓN PARA LIMPIAR Y INICIAR NUEVA VENTA
+// ==========================================
+function nuevaVenta() {
+    // 1. Limpiar carrito de productos
+    itemsVenta = [];
+    actualizarTablaItems();
+
+    // 2. Resetear datos del cliente a valores por defecto
+    const rucInput = document.getElementById('rucCliente');
+    const nombreInput = document.getElementById('nombreCliente');
+    const direccionInput = document.getElementById('direccionCliente');
+    const emailInput = document.getElementById('emailCliente');
+
+    if (rucInput) rucInput.value = '';
+    if (nombreInput) nombreInput.value = 'SIN NOMBRE / CONSUMIDOR FINAL';
+    if (direccionInput) direccionInput.value = 'Paraguarí - Paraguay';
+    if (emailInput) emailInput.value = 'cliente@gmail.com';
+
+    // 3. Resetear método de pago y ocultar secciones
+    const metodoPagoSelect = document.getElementById('metodoPago');
+    if (metodoPagoSelect) {
+        metodoPagoSelect.value = 'EFECTIVO';
+        actualizarVisibilidadCamposPago();
+    }
+
+    // 4. Limpiar foto de comprobante
+    eliminarFotoComprobante('subirVoucherFoto', 'previewVoucherFoto');
+
+    // 5. Limpiar campos de referencia de pago
+    const codAut = document.getElementById('codAutorizacion');
+    const nroVouch = document.getElementById('nroVoucher');
+    if (codAut) codAut.value = '';
+    if (nroVouch) nroVouch.value = '';
+
+    // 6. Ocultar ticket previo y hacer scroll arriba
+    const ticketDiv = document.getElementById('ticketPreview');
+    if (ticketDiv) ticketDiv.innerHTML = '';
+
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
