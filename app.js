@@ -457,20 +457,20 @@ function emitirComprobante(e) {
             <small style="display: block;">LIQUIDACIÓN DEL IVA: (5%): 0 | (10%): Gs. ${liquidacionIva10.toLocaleString('es-PY')}</small>
             <small style="display: block;"><strong>TOTAL IVA:</strong> Gs. ${liquidacionIva10.toLocaleString('es-PY')}</small>
 
-            ${lineaDivisora}
+                                ${lineaDivisora}
 
-            <strong>Método Pago:</strong> ${textoMetodo}<br>
-            ${refPagoHtml}
-            ${fotoComprobanteAdjunto ? `<div style="margin-top:4px; text-align:center;"><small style="color:#16a34a; font-weight:bold;">[ Comprobante Adjuntado y Respaldado ]</small><br><img src="${fotoComprobanteAdjunto}" style="width:60px; height:60px; object-fit:cover; border-radius:4px; border:1px solid #cbd5e1; margin-top:2px;"></div>` : ''}
-            
-            <div style="text-align:center; margin-top:10px; margin-bottom:8px;">
-                <img src="${qrApiUrl}" alt="QR DNIT" style="width:100px; height:100px;"><br>
-                <small style="font-size:0.58rem; word-break:break-all; display:block; margin-top:4px; color:#475569;">
-                    <strong>CDC:</strong> ${cdcDnit}
-                </small>
-            </div>
-            
-            ${lineaDivisora}
+                    <strong>Método Pago:</strong> ${textoMetodo}<br>
+                    ${refPagoHtml}
+
+                    <div style="text-align:center; margin-top:10px; margin-bottom:8px;">
+                        <img src="${qrApiUrl}" alt="QR DNIT" style="width:100px; height:100px;"><br>
+                        <small style="font-size:0.58rem; word-break:break-all; display:block; margin-top:4px; color:#475569;">
+                            <strong>CDC:</strong> ${cdcDnit}
+                        </small>
+                    </div>
+
+                    ${lineaDivisora}
+
 
             <!-- Mensaje Final de Agradecimiento -->
             <div style="text-align:center; font-weight:bold; font-size:0.75rem; color:#1e293b; margin:6px 0;">
