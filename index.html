@@ -184,51 +184,38 @@
                         <option value="CREDITO">Crédito</option>
                     </select>
                 </div>
+                            <div class="form-group">
+                <label for="metodoPago">Método Pago</label>
+                <select id="metodoPago">
+                    <option value="EFECTIVO" selected>Efectivo</option>
+                    <option value="DEBITO_QR">Tarjeta de Débito / QR Débito</option>
+                    <option value="CREDITO_QR">Tarjeta de Crédito / QR Crédito</option>
+                    <option value="TRANSFERENCIA">Transferencia Bancaria</option>
+                    <option value="CHEQUE">Cheque</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Sección Digital (Tarjetas / QR / Transferencia) -->
+        <div id="voucherSection" class="voucher-section" style="display: none; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
+            <div class="grid-2">
                 <div class="form-group">
-                    <label for="metodoPago">Método Pago</label>
-                    <select id="metodoPago">
-                        <option value="EFECTIVO" selected>Efectivo</option>
-                        <option value="DEBITO_QR">Tarjeta de Débito / QR Débito</option>
-                        <option value="CREDITO_QR">Tarjeta de Crédito / QR Crédito</option>
-                        <option value="TRANSFERENCIA">Transferencia Bancaria</option>
-                        <option value="CHEQUE">Cheque</option>
-                    </select>
+                    <label for="codAutorizacion">Cód. Autorización / N° Transacción</label>
+                    <input type="text" id="codAutorizacion" placeholder="Ej: 123456 / 9840123">
+                </div>
+                <div class="form-group">
+                    <label for="nroVoucher">N° Comprobante / Voucher</label>
+                    <input type="text" id="nroVoucher" placeholder="Ej: 0003938">
                 </div>
             </div>
 
-            <!-- Sección Tarjetas / QR -->
-            <div id="voucherSection" class="voucher-section" style="display: none; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
-                <div class="grid-2">
-                    <div class="form-group">
-                        <label for="codAutorizacion">Cód. Autorización</label>
-                        <input type="text" id="codAutorizacion" placeholder="Ej: 123456">
-                    </div>
-                    <div class="form-group">
-                        <label for="nroVoucher">N° Comprobante</label>
-                        <input type="text" id="nroVoucher" placeholder="Ej: 0003938">
-                    </div>
-                </div>
-                
-                <div class="upload-box" onclick="document.getElementById('subirVoucherFoto').click()">
-                    <span style="font-size: 0.75rem; color: #2563eb;">📷 Adjuntar foto / escaneo del voucher</span>
-                    <input type="file" id="subirVoucherFoto" accept="image/*" onchange="cargarFotoComprobante(event, 'previewVoucherFoto')" style="display: none;">
-                    <div id="previewVoucherFoto" style="margin-top: 4px;"></div>
-                </div>
+            <div class="upload-box" onclick="document.getElementById('subirVoucherFoto').click()">
+                <span style="font-size: 0.75rem; color: #2563eb;">📷 Adjuntar foto / captura del voucher o transferencia</span>
+                <input type="file" id="subirVoucherFoto" accept="image/*" onchange="cargarFotoComprobante(event, 'previewVoucherFoto')" style="display: none;">
+                <div id="previewVoucherFoto" style="margin-top: 4px;"></div>
             </div>
-
-            <!-- Sección Transferencia Bancaria -->
-            <div id="qrCobroSection" class="qr-cobro-section" style="display: none; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
-                <div class="form-group">
-                    <label for="nroTransf">N° Transacción / Comprobante Bancario</label>
-                    <input type="text" id="nroTransf" placeholder="Ej: Transf. N° 9840123">
-                </div>
-                
-                <div class="upload-box" onclick="document.getElementById('subirTransferenciaFoto').click()">
-                    <span style="font-size: 0.75rem; color: #2563eb;">🧾 Adjuntar foto / captura de transferencia bancaria</span>
-                    <input type="file" id="subirTransferenciaFoto" accept="image/*" onchange="cargarFotoComprobante(event, 'previewTransfFoto')" style="display: none;">
-                    <div id="previewTransfFoto" style="margin-top: 4px;"></div>
-                </div>
-            </div>
+        </div>
+    
 
             <!-- Sección Cheque -->
             <div id="chequeSection" class="cheque-section" style="display: none; background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
