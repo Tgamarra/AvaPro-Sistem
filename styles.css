@@ -1,7 +1,4 @@
-/* ==========================================================================
-   AvaPro-Sistem | Facturación KuDE e-Kuatia (Estilos Principales)
-   ========================================================================== */
-
+/* Estilos globales y reseteo para móviles */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -12,18 +9,19 @@
 body {
     background-color: #f1f5f9;
     color: #1e293b;
-    display: flex;
-    justify-content: center;
+    display: block;
     padding: 12px;
     min-height: 100vh;
 }
 
 .container {
     width: 100%;
-    max-width: 480px;
+    max-width: 100%;
+    margin: 0;
     background: #ffffff;
     border-radius: 12px;
     padding: 16px;
+    box-sizing: border-box;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     border: 1px solid #e2e8f0;
 }
